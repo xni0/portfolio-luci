@@ -45,3 +45,59 @@
 .spotlight-card:hover::before {
     opacity: 1;
 }
+
+
+/* --- EFECTOS CRT Y RETRO --- */
+body { overflow: hidden; }
+
+.scanlines {
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+  background-size: 100% 4px;
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 9999;
+}
+
+.screen-flicker {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 9998;
+  background: rgba(18, 16, 16, 0.05);
+  animation: flicker 0.15s infinite;
+}
+
+/* Bordes 3D estilo Windows 95 (Colores personalizados) */
+.win-border-out {
+  border-top: 2px solid #5d4d7a; border-left: 2px solid #5d4d7a;
+  border-right: 2px solid #000; border-bottom: 2px solid #000;
+  box-shadow: 1px 1px 0px 0px #000;
+}
+.win-border-in {
+  border-top: 2px solid #000; border-left: 2px solid #000;
+  border-right: 2px solid #5d4d7a; border-bottom: 2px solid #5d4d7a;
+}
+.win-btn {
+  border-top: 2px solid #fff; border-left: 2px solid #fff;
+  border-right: 2px solid #000; border-bottom: 2px solid #000;
+}
+.win-btn:active {
+  border-top: 2px solid #000; border-left: 2px solid #000;
+  border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar { width: 14px; background: #191523; }
+::-webkit-scrollbar-thumb { background: #2D1B4E; border: 2px solid; border-color: #5d4d7a #000 #000 #5d4d7a; }
+
+.pixelated { image-rendering: pixelated; }
+
+/* Utilidades de pestañas */
+.hidden-tab { display: none; }
+.active-tab { display: block; animation: fadeIn 0.3s ease-in-out; }
+
+/* Animaciones */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  100% { opacity: 1; }
+}
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(5px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
