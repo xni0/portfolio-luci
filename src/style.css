@@ -1,9 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* CONFIGURACIÓN BASE */
+body { 
+    overflow: hidden; 
+    background-color: #0F0518;
+}
+
+/* EFECTOS CRT Y RETRO (Scanlines & Flicker) */
+.scanlines {
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+    background-size: 100% 4px;
+    position: fixed; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    pointer-events: none; 
+    z-index: 9999;
+}
+
+.screen-flicker {
+    position: fixed; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    pointer-events: none; 
+    z-index: 9998;
+    background: rgba(18, 16, 16, 0.05);
+    animation: flicker 0.15s infinite;
+}
 
 /* TEXTURA DE RUIDO (Noise) */
 .bg-noise {
@@ -15,89 +37,64 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-/* CLASE PARA EL FOCO DE LUZ (Spotlight) */
-.spotlight-card {
-    background-color: rgba(10, 10, 10, 0.8); /* Base oscura */
-    position: relative;
-    overflow: hidden;
-}
-
-/* Este pseudo-elemento será la luz que movemos con JS */
-.spotlight-card::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    border-radius: inherit;
-    padding: 1px; /* Grosor del borde brillante */
-    background: radial-gradient(
-        800px circle at var(--mouse-x) var(--mouse-y),
-        rgba(255, 255, 255, 0.4),
-        transparent 40%
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    opacity: 0; /* Invisible hasta que pasas el mouse */
-    transition: opacity 0.5s;
-}
-
-.spotlight-card:hover::before {
-    opacity: 1;
-}
-
-
-/* --- EFECTOS CRT Y RETRO --- */
-body { overflow: hidden; }
-
-.scanlines {
-  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
-  background-size: 100% 4px;
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 9999;
-}
-
-.screen-flicker {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 9998;
-  background: rgba(18, 16, 16, 0.05);
-  animation: flicker 0.15s infinite;
-}
-
-/* Bordes 3D estilo Windows 95 (Colores personalizados) */
+/* BORDES 3D ESTILO WINDOWS 95 */
 .win-border-out {
-  border-top: 2px solid #5d4d7a; border-left: 2px solid #5d4d7a;
-  border-right: 2px solid #000; border-bottom: 2px solid #000;
-  box-shadow: 1px 1px 0px 0px #000;
-}
-.win-border-in {
-  border-top: 2px solid #000; border-left: 2px solid #000;
-  border-right: 2px solid #5d4d7a; border-bottom: 2px solid #5d4d7a;
-}
-.win-btn {
-  border-top: 2px solid #fff; border-left: 2px solid #fff;
-  border-right: 2px solid #000; border-bottom: 2px solid #000;
-}
-.win-btn:active {
-  border-top: 2px solid #000; border-left: 2px solid #000;
-  border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+    border-top: 2px solid #5d4d7a; 
+    border-left: 2px solid #5d4d7a;
+    border-right: 2px solid #000; 
+    border-bottom: 2px solid #000;
+    box-shadow: 1px 1px 0px 0px #000;
 }
 
-/* Scrollbar personalizada */
+.win-border-in {
+    border-top: 2px solid #000; 
+    border-left: 2px solid #000;
+    border-right: 2px solid #5d4d7a; 
+    border-bottom: 2px solid #5d4d7a;
+}
+
+.win-btn {
+    border-top: 2px solid #fff; 
+    border-left: 2px solid #fff;
+    border-right: 2px solid #000; 
+    border-bottom: 2px solid #000;
+}
+
+.win-btn:active {
+    border-top: 2px solid #000; 
+    border-left: 2px solid #000;
+    border-right: 2px solid #fff; 
+    border-bottom: 2px solid #fff;
+}
+
+/* SCROLLBAR PERSONALIZADA */
 ::-webkit-scrollbar { width: 14px; background: #191523; }
 ::-webkit-scrollbar-thumb { background: #2D1B4E; border: 2px solid; border-color: #5d4d7a #000 #000 #5d4d7a; }
 
+/* UTILIDADES */
 .pixelated { image-rendering: pixelated; }
 
-/* Utilidades de pestañas */
 .hidden-tab { display: none; }
 .active-tab { display: block; animation: fadeIn 0.3s ease-in-out; }
 
-/* Animaciones */
+/* ANIMACIONES */
 @keyframes flicker {
-  0% { opacity: 0.97; }
-  100% { opacity: 1; }
-}
-@keyframes fadeIn { 
-  from { opacity: 0; transform: translateY(5px); } 
-  to { opacity: 1; transform: translateY(0); } 
+    0% { opacity: 0.97; }
+    100% { opacity: 1; }
 }
 
+@keyframes fadeIn { 
+    from { opacity: 0; transform: translateY(5px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+/* Efecto Máquina de Escribir */
+.typing-effect {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid #56e39f;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: #56e39f; } }
+@keyframes typing { 0% { width: 0 } 100% { width: 100% } }
